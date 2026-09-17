@@ -1,0 +1,24 @@
+{
+  "common": {
+    "max-packets-per-second": 50
+  },
+  "inventory": {
+    "primary": "default.json",
+    "apply-on-join": true,
+    "delay-on-auto-apply": 500
+  },
+  "navigation": {
+    "teleport-on-glass-break": true,
+    "teleporting-method": "PACKET",
+    "movement-multiplier": {
+      "enable": true,
+      "hidden": false,
+      "movement": 0,
+      "sneaking": 350
+    }
+  },
+  "debug": {
+    "messages": false,
+    "disable-packet-queue": false
+  }
+}

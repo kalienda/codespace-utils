@@ -1,0 +1,26 @@
+{
+	"schemaVersion": 1,
+	"id": "codespace-utils",
+	"version": "${version}",
+	"name": "Codespace Utils",
+	"description": "Set of utilities to ease developing games on JustMC",
+	"authors": ["kalienda"],
+	"contributors": [],
+	"license": "MIT",
+	"icon": "assets/codespace-utils/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"main": ["me.vladosik.csu.CodespaceUtils"],
+		"modmenu": ["me.vladosik.csu.ModMenuEntryPoint"]
+	},
+	"mixins": ["codespace-utils.mixins.json"],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "${api_version}"
+	},
+	"recommends": {
+		"cloth-config": ">=21.11.153"
+	}
+}
