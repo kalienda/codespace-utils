@@ -116,7 +116,7 @@ public class ConfigMenu {
         subCategory.setExpanded(true);
         subCategory.add(entryBuilder.startBooleanToggle(Component.translatable("csu.config.navigation.movmultip.enabled.label"), config.movementMultiplier.enable())
             .setSaveConsumer(b -> changes.getAsJsonObject("navigation").getAsJsonObject("movement-multiplier").add("enable", new JsonPrimitive(b)))
-            .setTooltip(Component.translatable("csu.config.navigation.movmultip.enabled.label"))
+            .setTooltip(Component.translatable("csu.config.navigation.movmultip.enabled.tooltip"))
             .build()
         );
         subCategory.add(entryBuilder.startBooleanToggle(Component.translatable("csu.config.navigation.movmultip.hidden.label"), config.movementMultiplier.hidden())
@@ -135,7 +135,7 @@ public class ConfigMenu {
         );
         subCategory.add(entryBuilder.startIntSlider(
                 Component.translatable("csu.config.navigation.movmultip.sneaking.label"),
-                config.movementMultiplier.sneaking(), 0, 1000
+                config.movementMultiplier.sneaking(), 0, 2000
             )
             .setSaveConsumer(i -> changes.getAsJsonObject("navigation").getAsJsonObject("movement-multiplier").add("sneaking", new JsonPrimitive(i)))
             .setTooltip(Component.translatable("csu.config.navigation.movmultip.sneaking.tooltip"))

@@ -8,6 +8,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectObjectImmutablePair;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.vladosik.csu.config.Config;
 import me.vladosik.csu.config.ConfigMenu;
 import me.vladosik.csu.utils.Sounds;
 import me.vladosik.csu.utils.Utils;
@@ -32,7 +33,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 public final class CommandDispatcher {
-    private static final String[] CSU_TOP_LEVEL_ARGS = {"config", "directory"};
+    private static final String[] CSU_TOP_LEVEL_ARGS = {"config", "directory", "reloadConfig"};
     private static final String[] REARRANGE_TOP_LEVEL_ARGS = {"create", "load", "list", "remove"};
 
     public static void register() {
@@ -67,19 +68,28 @@ public final class CommandDispatcher {
             ctx.getSource().sendError(Component.translatable("csu.commands.messages.errors.missing-argument", 1, "/csu"));
             Sounds.FAIL.playOnPlayer();
             return 1;
-        } else if (!(arg1.equalsIgnoreCase("config") || arg1.equalsIgnoreCase("directory"))) {
-            ctx.getSource().sendError(Component.translatable("csu.commands.messages.errors.illegal-command-usage", "csu "+arg1));
-            return showCSUHelp(ctx);
-        } else if (arg1.equalsIgnoreCase("config")) {
-            Minecraft.getInstance().pauseGame(true);
-            try {
-                var ignored = ConfigEntryBuilder.class;
-                ConfigMenu.show(Objects.requireNonNull(Minecraft.getInstance().screen));
-            } catch (NoClassDefFoundError ignored) {
-                Util.getPlatform().openFile(CodespaceUtils.getConfigFile());
+        }
+        switch (arg1) {
+            case "config" -> {
+                var client = Minecraft.getInstance();
+                client.pauseGame(false);
+                try {
+                    var ignored = ConfigEntryBuilder.class;
+                    client.setScreenAndShow(ConfigMenu.show(Objects.requireNonNull(Minecraft.getInstance().screen)));
+                } catch (NoClassDefFoundError e) {
+                    Util.getPlatform().openFile(CodespaceUtils.getConfigFile());
+                }
             }
-        } else {
-            Util.getPlatform().openFile(CodespaceUtils.getConfigDir());
+            case "directory" -> Util.getPlatform().openFile(CodespaceUtils.getConfigDir());
+            case "reloadConfig" -> {
+                CodespaceUtils.config = Config.ofConfigJSON();
+                ctx.getSource().sendFeedback(Component.translatable("csu.commands.messages.reloaded-config"));
+                Sounds.SUCCESS.playOnPlayer();
+            }
+            default -> {
+                ctx.getSource().sendError(Component.translatable("csu.commands.messages.errors.illegal-command-usage", "csu "+arg1));
+                return showCSUHelp(ctx);
+            }
         }
         return 0;
     }
@@ -113,8 +123,9 @@ public final class CommandDispatcher {
         var list = List.of(
             new ObjectObjectImmutablePair<>("/csu config", "csu.csu-config"),
             new ObjectObjectImmutablePair<>("/csu directory", "csu.csu-directory"),
+            new ObjectObjectImmutablePair<>("/csu reloadConfig", "csu.csu-reload-config"),
             new ObjectObjectImmutablePair<>("/arrangements create [name]", "arrangements.create"),
-            new ObjectObjectImmutablePair<>("/arrangements rearrange [file]", "arrangements.rearrange"),
+            new ObjectObjectImmutablePair<>("/arrangements load [file]", "arrangements.load"),
             new ObjectObjectImmutablePair<>("/arrangements list", "arrangements.list"),
             new ObjectObjectImmutablePair<>("/arrangements remove <file>", "arrangements.remove")
         );
@@ -238,7 +249,7 @@ public final class CommandDispatcher {
             MutableComponent load = Component.literal("[↓]").withStyle(Style.EMPTY
                     .withItalic(false)
                     .withColor(Utils.COLOR_BLUE)
-                    .withClickEvent(new ClickEvent.SuggestCommand("/arrangement rearrange "+arrangement))
+                    .withClickEvent(new ClickEvent.SuggestCommand("/arrangement load "+arrangement))
                     .withHoverEvent(new HoverEvent.ShowText(Component.translatable("csu.commands.messages.apply-arrangement-button-hover")))
             );
             MutableComponent remove = Component.literal("[✘]").withStyle(Style.EMPTY

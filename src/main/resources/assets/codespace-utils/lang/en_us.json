@@ -48,6 +48,7 @@
   "csu.commands.messages.errors.file-not-found": "There is no arrangement file with following name: \"%s\"",
   "csu.commands.messages.created-new-arrangement": "Created new arrangement: \"%s\". You can make it primary, so that is will load automatically upon joining the Codespace in mod's config: /csu config",
   "csu.commands.messages.removed-arrangement": "Successfully removed arrangement \"%s\"",
+  "csu.commands.messages.reloaded-config": "Successfully reloaded the config file",
   "csu.commands.messages.apply-arrangement-button-hover": "Click to paste a command in the chat\nthat will apply this arrangement",
   "csu.commands.messages.remove-arrangement-button-hover": "Click to paste a command in the chat\nthat will remove this arrangement\n(this will remove it, not move\nto the recycle bin!)",
   "csu.commands.help.arrangements.create": "Creates new inventory arrangement of something\nthat you currently have in your inventory.\n\n⇒ /arrangements create\nCreates new arrangement from current inventory\nwith random name\n⇒ /arrangement create my_arrangement\nCreates new arrangement from current inventory with\nname \"my_arrangement\"",
@@ -56,5 +57,6 @@
   "csu.commands.help.arrangements.remove": "Physically removes the given file with an arrangement from disk.\nNote that this command removes\nthe file, not moves to the recycle bin!\n\n⇒/arrangements remove my_arrangement.json\nRemoves the file with name \"my_arrangement.json\"\nfrom arrangements directory in mod's config",
   "csu.commands.help.csu.word-authors": "Authors: ",
   "csu.commands.help.csu.csu-config": "Opens the config menu if Cloth Config API\nis installed, otherwise opens the bare file",
-  "csu.commands.help.csu.csu-directory": "Opens the config directory of this mod\nwith default file explorer (e.g. explorer,\ndolphin, nautilus etc.)"
+  "csu.commands.help.csu.csu-directory": "Opens the config directory of this mod\nwith default file explorer (e.g. explorer,\ndolphin, nautilus etc.)",
+  "csu.commands.help.csu.csu-reload-config": "Reloads the mod's config in memory from\nthe configuration file."
 }

@@ -7,6 +7,9 @@
 	"authors": ["kalienda"],
 	"contributors": [],
 	"license": "MIT",
+	"contact": {
+		"sources": "https://github.com/kalienda/codespace-utils"
+	},
 	"icon": "assets/codespace-utils/icon.png",
 	"environment": "client",
 	"entrypoints": {
