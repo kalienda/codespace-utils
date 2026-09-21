@@ -9,7 +9,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -97,7 +97,7 @@ public class Config {
             if (!enable) return ItemStack.EMPTY;
             ItemStack is = new ItemStack(hidden ? Items.POLISHED_BLACKSTONE_BUTTON : Items.LEATHER_BOOTS);
             if (hidden) is.set(DataComponents.EQUIPPABLE, Equippable.builder(EquipmentSlot.FEET)
-                .setAllowedEntities(EntityType.PLAYER)
+                .setAllowedEntities(EntityTypes.PLAYER)
                 .setEquipOnInteract(true)
                 .build()
             );

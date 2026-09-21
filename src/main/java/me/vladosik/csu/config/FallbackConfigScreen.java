@@ -35,8 +35,8 @@ public class FallbackConfigScreen extends Screen {
         layout.addChild(string(Component.translatable("csu.fallback-config.subtitle")));
 
         layout.defaultCellSetting().padding(3);
-        layout.addChild(button(Component.literal("Modrinth"), button -> Util.getPlatform().openUri("https://modrinth.com/mod/cloth-config")));
-        layout.addChild(button(Component.literal("Curseforge"), button -> Util.getPlatform().openUri("https://www.curseforge.com/minecraft/mc-mods/cloth-config")));
+        layout.addChild(button(Component.literal("Modrinth"), _ -> Util.getPlatform().openUri("https://modrinth.com/mod/cloth-config")));
+        layout.addChild(button(Component.literal("Curseforge"), _ -> Util.getPlatform().openUri("https://www.curseforge.com/minecraft/mc-mods/cloth-config")));
 
         layout.defaultCellSetting().padding(0);
         layout.addChild(string(Component.translatable("csu.fallback-config.manual-edit.line1")));
@@ -44,9 +44,9 @@ public class FallbackConfigScreen extends Screen {
         layout.addChild(string(Component.translatable("csu.fallback-config.manual-edit.line3")));
 
         layout.defaultCellSetting().padding(10);
-        layout.addChild(button(Component.translatable("csu.fallback-config.open-file-button"), button -> Util.getPlatform().openFile(CodespaceUtils.getConfigFile())));
+        layout.addChild(button(Component.translatable("csu.fallback-config.open-file-button"), _ -> Util.getPlatform().openFile(CodespaceUtils.getConfigFile())));
         layout.defaultCellSetting().padding(1);
-        layout.addChild(button(CommonComponents.GUI_BACK, button -> onClose()));
+        layout.addChild(button(CommonComponents.GUI_BACK, _ -> onClose()));
 
         layout.arrangeElements();
         layout.visitWidgets(super::addRenderableWidget);

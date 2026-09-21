@@ -6,7 +6,7 @@ import me.vladosik.csu.utils.PacketManager;
 import me.vladosik.csu.utils.Utils;
 import net.fabricmc.api.ModInitializer;
 
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientWorldEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLevelEvents;
 import net.fabricmc.fabric.api.event.client.player.ClientPlayerBlockBreakEvents;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -49,12 +49,19 @@ public class CodespaceUtils implements ModInitializer {
 				FilesOperations.createTemplateArrangement();
 			}
 		}
-		config = Config.ofConfigJSON();
+
+        try {
+            config = Config.ofConfigJSON();
+        } catch (RuntimeException e) {
+            FilesOperations.onConfigBroken(e);
+			config = Config.ofConfigJSON();
+        }
+
 		packetManager = new PacketManager(config.maxPacketsPerSecond);
 	}
 
 	private void callbackRegistration() {
-		ClientWorldEvents.AFTER_CLIENT_WORLD_CHANGE.register((client, world) -> {
+		ClientLevelEvents.AFTER_CLIENT_LEVEL_CHANGE.register((_, world) -> {
 			if (Utils.worldIsCodespace(world)) {
 				Arrangement primary;
 				try {
@@ -66,12 +73,11 @@ public class CodespaceUtils implements ModInitializer {
 			}
 		});
 
-		ClientPlayerBlockBreakEvents.AFTER.register((world, player, pos, state) -> {
+		ClientPlayerBlockBreakEvents.AFTER.register((world, player, pos, _) -> {
 			if (!config.teleportOnGlassBreak || !Utils.worldIsCodespace(world)) return;
 			if ((pos.getY()-4)%7 != 0 || pos.getY() == 4) return; // Нулевой этаж на y=4, высота этажа - 7 бл.
 			var playerPos = player.position();
 
-//			float offset = player.getRotationVector().y > 0 ? 7f : -7f;
 			float offset = playerPos.y < pos.getY() ? 7f : -7f;
 			if (player.getBlockY() == playerPos.y && offset == 7f) offset += .4f;
 			// Строка сверху - это предотвращение отката, если снапнуть игрока в сломанный блок он будет телепортирован обратно античитом

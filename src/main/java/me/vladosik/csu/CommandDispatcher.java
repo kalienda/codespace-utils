@@ -12,7 +12,7 @@ import me.vladosik.csu.config.Config;
 import me.vladosik.csu.config.ConfigMenu;
 import me.vladosik.csu.utils.Sounds;
 import me.vladosik.csu.utils.Utils;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommands;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.loader.api.FabricLoader;
@@ -37,24 +37,24 @@ public final class CommandDispatcher {
     private static final String[] REARRANGE_TOP_LEVEL_ARGS = {"create", "load", "list", "remove"};
 
     public static void register() {
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            dispatcher.register(ClientCommandManager.literal("arrangement")
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, _) -> {
+            dispatcher.register(ClientCommands.literal("arrangement")
                 .executes(CommandDispatcher::showRearrangeHelp)
-                .then(ClientCommandManager.argument("arg1", StringArgumentType.word())
-                    .suggests((ctx, builder) ->
+                .then(ClientCommands.argument("arg1", StringArgumentType.word())
+                    .suggests((_, builder) ->
                         SharedSuggestionProvider.suggest(REARRANGE_TOP_LEVEL_ARGS, builder)
                     )
                     .executes(CommandDispatcher::executeRearrange1)
-                        .then(ClientCommandManager.argument("arg2", StringArgumentType.greedyString())
+                        .then(ClientCommands.argument("arg2", StringArgumentType.greedyString())
                             .suggests(CommandDispatcher::suggestRearrange2)
                             .executes(CommandDispatcher::executeRearrange2)
                         )
                 )
             );
-            dispatcher.register(ClientCommandManager.literal("csu")
+            dispatcher.register(ClientCommands.literal("csu")
                 .executes(CommandDispatcher::showCSUHelp)
-                .then(ClientCommandManager.argument("arg1", StringArgumentType.word())
-                    .suggests((context, builder) -> SharedSuggestionProvider.suggest(CSU_TOP_LEVEL_ARGS, builder))
+                .then(ClientCommands.argument("arg1", StringArgumentType.word())
+                    .suggests((_, builder) -> SharedSuggestionProvider.suggest(CSU_TOP_LEVEL_ARGS, builder))
                     .executes(CommandDispatcher::executeCSU1)
                 )
             );
@@ -75,7 +75,7 @@ public final class CommandDispatcher {
                 client.pauseGame(false);
                 try {
                     var ignored = ConfigEntryBuilder.class;
-                    client.setScreenAndShow(ConfigMenu.show(Objects.requireNonNull(Minecraft.getInstance().screen)));
+                    client.setScreenAndShow(ConfigMenu.show(Objects.requireNonNull(Minecraft.getInstance().gui.screen())));
                 } catch (NoClassDefFoundError e) {
                     Util.getPlatform().openFile(CodespaceUtils.getConfigFile());
                 }
@@ -224,7 +224,7 @@ public final class CommandDispatcher {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        client.player.displayClientMessage(Component.translatable("csu.commands.messages.created-new-arrangement", actualFileName), false);
+        client.player.sendSystemMessage(Component.translatable("csu.commands.messages.created-new-arrangement", actualFileName));
         Sounds.SUCCESS.playOnPlayer();
     }
 

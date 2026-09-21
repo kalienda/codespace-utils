@@ -3,7 +3,6 @@ package me.vladosik.csu.utils;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 import me.vladosik.csu.CodespaceUtils;
-import me.vladosik.csu.config.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.component.DataComponents;
@@ -76,18 +75,15 @@ public final class Utils {
         Minecraft.getInstance().execute(code);
     }
 
-    private static void sendMessageActions(boolean bl, Object[] messages) {
+    public static void sendDebugMessage(@Nullable Object @NonNull ...messages) {
         LocalPlayer lp = Minecraft.getInstance().player;
         if (!CodespaceUtils.config.debugMessagesEnabled || lp == null) return;
         StringJoiner joiner = new StringJoiner("");
         for (Object message : messages) {
             joiner.add(message != null ? message.toString() : "null");
         }
-        lp.displayClientMessage(Component.literal("[csu/d] "+joiner).setStyle(Style.EMPTY.withItalic(false)), bl);
+        lp.sendSystemMessage(Component.literal("[csu/d] "+joiner).setStyle(Style.EMPTY.withItalic(false)));
     }
-
-    public static void sendDebugActionbar(@Nullable Object @NonNull ...messages) { sendMessageActions(true, messages); }
-    public static void sendDebugMessage(@Nullable Object @NonNull ...messages) { sendMessageActions(false, messages); }
     public static void ifDebug(@NonNull Runnable actions) { if (CodespaceUtils.config.debugMessagesEnabled) actions.run(); }
 
     public static @Nullable JsonElement extractCustomData(@NonNull ItemStack is) {

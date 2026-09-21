@@ -15,7 +15,6 @@ import net.minecraft.world.item.Items;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Arrangement {
     private static final byte INVENTORY_SIZE = 36;
@@ -54,11 +53,12 @@ public class Arrangement {
                 throw new RuntimeException(e);
             }
 
+
             Minecraft client = Minecraft.getInstance();
             client.execute(() -> {
                 if (client.player == null) return;
                 var menu = client.player.containerMenu;
-                boolean isWithCreativeMenu = client.screen instanceof CreativeModeInventoryScreen;
+                boolean isWithCreativeMenu = client.gui.screen() instanceof CreativeModeInventoryScreen;
                 List<ItemStack> values = findCreativeValues(menu);
                 var editorEquipment = collectDecoratedItems(menu);
                 var packets = new ArrayList<ServerboundSetCreativeModeSlotPacket>();

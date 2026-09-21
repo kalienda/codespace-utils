@@ -18,12 +18,12 @@
 	},
 	"mixins": ["codespace-utils.mixins.json"],
 	"depends": {
-		"fabricloader": ">=0.19.3",
-		"minecraft": "~1.21.11",
-		"java": ">=21",
+		"fabricloader": ">=${loader_version}",
+		"minecraft": "~${minecraft_version}",
+		"java": ">=25",
 		"fabric-api": "${api_version}"
 	},
 	"recommends": {
-		"cloth-config": ">=21.11.153"
+		"cloth-config": ">=${cloth_version}"
 	}
 }
