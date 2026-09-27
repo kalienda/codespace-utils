@@ -31,6 +31,7 @@ public class Config {
     public final JsonObject json;
 
     public final int maxPacketsPerSecond;
+    public final boolean hideLineMemberHotbarMessage;
 
     public final File primaryArrangement;
     public final boolean applyArrangementOnJoin;
@@ -58,6 +59,12 @@ public class Config {
 
         JsonObject common = json.getAsJsonObject("common");
         maxPacketsPerSecond = common.get("max-packets-per-second").getAsInt();
+        boolean toApplyLineMemberState;
+        if (!common.has("hide-line-member-hint")) {
+            toApplyLineMemberState = false;
+            common.addProperty("hide-line-member-hint", false);
+        } else toApplyLineMemberState = common.get("hide-line-member-hint").getAsBoolean();
+        hideLineMemberHotbarMessage = toApplyLineMemberState;
 
         JsonObject inventory = json.getAsJsonObject("inventory");
         primaryArrangement = new File(CodespaceUtils.getArrangementsDir(), inventory.get("primary").getAsString());
@@ -93,7 +100,7 @@ public class Config {
             Component.literal("https://github.com/kalienda/codespace-utils").withStyle(Style.EMPTY.withItalic(false).withColor(Utils.COLOR_WHITE))
         ));
 
-        public ItemStack assemble() {
+        public ItemStack createItem() {
             if (!enable) return ItemStack.EMPTY;
             ItemStack is = new ItemStack(hidden ? Items.POLISHED_BLACKSTONE_BUTTON : Items.LEATHER_BOOTS);
             if (hidden) is.set(DataComponents.EQUIPPABLE, Equippable.builder(EquipmentSlot.FEET)

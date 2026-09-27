@@ -23,15 +23,17 @@ dependencies {
 }
 
 processResources {
-	def version = project.version
-	inputs.property "version", version
+//	inputs.property "version", version
+	def props = [
+		"version": version,
+		"loader_version": project.property("loader_version"),
+		"minecraft_version": project.property("minecraft_version"),
+		"api_version": project.property("fabric_api_version"),
+		"cloth_version": project.property("cloth_config_api_version")
+	]
 
 	filesMatching("fabric.mod.json") {
-		expand "version": version,
-				"loader_version": project.property("loader_version"),
-				"minecraft_version": project.property("minecraft_version"),
-				"api_version": project.property("fabric_api_version"),
-				"cloth_version": project.property("cloth_config_api_version")
+		expand props
 	}
 }
 

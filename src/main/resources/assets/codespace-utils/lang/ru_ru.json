@@ -58,5 +58,7 @@
   "csu.commands.help.csu.csu-config": "Открывает меню конфигурации, если Cloth Config API\nустановлен, иначе открывает файл",
   "csu.commands.help.csu.csu-directory": "Открывает каталог с конфигурациями мода в проводнике\nпо умолчанию (explorer, dolphin, nautilus т.д.)",
   "csu.commands.messages.reloaded-config": "Файл конфигурации успешно перезагружен",
-  "csu.commands.help.csu.csu-reload-config": "Перезагружает конфигурацию мода в памяти\nиз файла конфигурации."
+  "csu.commands.help.csu.csu-reload-config": "Перезагружает конфигурацию мода в памяти\nиз файла конфигурации.",
+  "csu.config.common.hide-line-block-help.label": "Скрыть название блока строки в экшн-баре",
+  "csu.config.common.hide-line-block-help.tooltip": "Если включено, сообщение, которое\nобычно появляется в экшн-баре с названием блока\nстроки, на который вы навелись, будет скрыто."
 }

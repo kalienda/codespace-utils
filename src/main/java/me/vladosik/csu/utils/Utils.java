@@ -94,6 +94,6 @@ public final class Utils {
     }
 
     public static boolean worldIsCodespace(Level level) {
-        return level.dimension().identifier().getPath().endsWith("_creativeplus_editor");
+        return level != null && level.dimension().identifier().getPath().endsWith("_creativeplus_editor");
     }
 }

@@ -75,7 +75,7 @@ public class Arrangement {
                     packets.add(new ServerboundSetCreativeModeSlotPacket(slotId, toApply));
                 }
                 if (config.movementMultiplier.enable()) {
-                    var item = config.movementMultiplier.assemble();
+                    var item = config.movementMultiplier.createItem();
                     menu.getSlot(8 /* ботинки */).set(item);
                     packets.add(new ServerboundSetCreativeModeSlotPacket(8, item));
                 }

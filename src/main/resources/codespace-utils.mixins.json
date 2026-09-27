@@ -3,6 +3,7 @@
   "package": "me.vladosik.csu.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "HudMixin"
   ],
   "injectors": {
     "defaultRequire": 1

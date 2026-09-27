@@ -5,6 +5,8 @@
   "csu.config.common.tooltip": "Generic options\nof this mod",
   "csu.config.common.max-packets.label": "Max packets per second",
   "csu.config.common.max-packets.tooltip": "Declares the max amount of server bound packets this mod can send per\none second. Decrease this value, if you are getting kicked because of\n\"You are sending too many packets\" message",
+  "csu.config.common.hide-line-block-help.label": "Hide action bar message of block in the line",
+  "csu.config.common.hide-line-block-help.tooltip": "If enabled, the hotbar message,\nthat is typically shown when looking at\nthe block in line of code, is hidden.",
   "csu.config.inventory.label": "Inventory",
   "csu.config.inventory.tooltip": "Options, that affect inventory\nbehaviour of this mod",
   "csu.config.inventory.primary.label": "Primary arrangement",

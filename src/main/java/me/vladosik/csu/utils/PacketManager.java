@@ -34,7 +34,8 @@ public class PacketManager {
     }
 
     public void setPacketsRate(int packetsPerSecond) {
-        this.packetsPerTick = packetsPerSecond / 20;
+        int packets = packetsPerSecond / 20;
+        if (packetsPerTick != packets) packetsPerTick = packets;
     }
 
     public <P extends Packet<?>> void upsert(@NonNull P packet) {

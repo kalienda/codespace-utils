@@ -64,6 +64,13 @@ public class ConfigMenu {
                 .setMin(1)
                 .build()
         );
+
+        commonCategory.addEntry(
+            entryBuilder.startBooleanToggle(Component.translatable("csu.config.common.hide-line-block-help.label"), config.hideLineMemberHotbarMessage)
+                .setTooltip(Component.translatable("csu.config.common.hide-line-block-help.tooltip"))
+                .setSaveConsumer(b -> changes.getAsJsonObject("common").addProperty("hide-line-member-hint", b))
+                .build()
+        );
     }
 
     private void createInventoryCategory() {
@@ -98,6 +105,16 @@ public class ConfigMenu {
             .setSaveConsumer(b -> changes.getAsJsonObject("navigation").add("teleport-on-glass-break", new JsonPrimitive(b)))
             .build()
         );
+        navigationCategory.addEntry(entryBuilder.startSelector(Component.translatable("csu.config.navigation.glasstp-method.label"), Config.TeleportationType.values(), config.teleportationType)
+            .setTooltip(
+                Component.translatable("csu.config.navigation.glasstp-method.tooltip"),
+                Component.translatable("csu.config.navigation.glasstp-method.tooltip2"),
+                Component.translatable("csu.config.navigation.glasstp-method.tooltip3")
+            )
+            .setSaveConsumer(tpt -> changes.getAsJsonObject("navigation").addProperty("teleporting-method", tpt.toString()))
+            .build()
+        );
+        /*
         navigationCategory.addEntry(entryBuilder.startStringDropdownMenu(Component.translatable("csu.config.navigation.glasstp-method.label"), config.teleportationType.toString())
             .setTooltip(
                 Component.translatable("csu.config.navigation.glasstp-method.tooltip"),
@@ -110,7 +127,7 @@ public class ConfigMenu {
             })
             .setSelections(List.of("PACKET", "COMMAND"))
             .build()
-        );
+        );*/
 
         SubCategoryBuilder subCategory = entryBuilder.startSubCategory(Component.translatable("csu.config.navigation.movmultip"));
         subCategory.setExpanded(true);
